@@ -78,7 +78,7 @@ RCT_EXPORT_MODULE()
 
 - (RCTShadowView *)shadowView
 {
-  RNDateTimePickerShadowView* shadowView =  [RNDateTimePickerShadowView new];
+  RNDateTimePickerShadowView* shadowView = [RNDateTimePickerShadowView new];
   shadowView.picker = _picker;
   return shadowView;
 }
@@ -176,6 +176,15 @@ RCT_CUSTOM_VIEW_PROPERTY(displayIOS, RNCUIDatePickerStyle, RNDateTimePicker)
             view.preferredDatePickerStyle = UIDatePickerStyleAutomatic;
         }
     }
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(timeZoneName, NSString, RNDateTimePicker)
+{
+  if (json) {
+    if ([[NSTimeZone knownTimeZoneNames] containsObject:json]) {
+      [view setTimeZone:[[NSTimeZone alloc] initWithName:json]];
+    }
+  }
 }
 
 @end

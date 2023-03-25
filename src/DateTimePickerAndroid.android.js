@@ -15,7 +15,6 @@ import invariant from 'invariant';
 import type {AndroidNativeProps} from './types';
 import {
   getOpenPicker,
-  timeZoneOffsetDateSetter,
   validateAndroidProps,
 } from './androidUtils';
 import pickers from './picker';
@@ -36,6 +35,7 @@ function open(props: AndroidNativeProps) {
     maximumDate,
     minuteInterval,
     timeZoneOffsetInMinutes,
+    timeZoneName,
     onChange,
     onError,
     positiveButton,
@@ -76,7 +76,7 @@ function open(props: AndroidNativeProps) {
         display === ANDROID_DISPLAY.spinner
           ? ANDROID_DISPLAY.spinner
           : ANDROID_DISPLAY.default;
-      const {action, day, month, year, minute, hour} = await openPicker({
+      const {action, timestamp} = await openPicker({
         value: valueTimestamp,
         display: displayOverride,
         is24Hour,
@@ -84,24 +84,21 @@ function open(props: AndroidNativeProps) {
         maximumDate,
         minuteInterval,
         timeZoneOffsetInMinutes,
+        timeZoneName,
         dialogButtons,
         testID,
       });
 
       switch (action) {
         case DATE_SET_ACTION: {
-          let date = new Date(valueTimestamp);
-          date.setFullYear(year, month, day);
-          date = timeZoneOffsetDateSetter(date, timeZoneOffsetInMinutes);
+          let date = new Date(timestamp);
           const [event] = createDateTimeSetEvtParams(date);
           onChange?.(event, date);
           break;
         }
 
         case TIME_SET_ACTION: {
-          let date = new Date(valueTimestamp);
-          date.setHours(hour, minute);
-          date = timeZoneOffsetDateSetter(date, timeZoneOffsetInMinutes);
+          let date = new Date(timestamp);
           const [event] = createDateTimeSetEvtParams(date);
           onChange?.(event, date);
           break;

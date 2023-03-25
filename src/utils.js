@@ -30,10 +30,22 @@ export function dateToMilliseconds(date: ?Date): ?number {
   return date.getTime();
 }
 
-export function sharedPropsValidation({value}: {value: ?Date}) {
+export function sharedPropsValidation({
+  value,
+  timeZoneName,
+  timeZoneOffsetInMinutes,
+}: {
+  value: ?Date,
+  timeZoneName: ?string,
+  timeZoneOffsetInMinutes: ?number,
+}) {
   invariant(value, 'A date or time must be specified as `value` prop');
   invariant(
     value instanceof Date,
     '`value` prop must be an instance of Date object',
+  );
+  invariant(
+    !(timeZoneName && timeZoneOffsetInMinutes),
+    'timeZoneName and timeZoneOffsetInMinutes cannot be used together',
   );
 }

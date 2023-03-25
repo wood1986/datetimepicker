@@ -92,6 +92,11 @@ export type IOSNativeProps = Readonly<
     timeZoneOffsetInMinutes?: number;
 
     /**
+     * The tz database name in https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+     */
+    timeZoneName?: string;
+
+    /**
      * The date picker text color.
      */
     textColor?: string;
