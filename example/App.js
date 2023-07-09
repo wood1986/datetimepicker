@@ -65,11 +65,11 @@ const ThemedTextInput = (props) => {
   });
 };
 
-const Info = ({title, body}) => {
+const Info = ({testID, title, body}) => {
   return (
     <View style={{flexDirection: 'row'}}>
       <ThemedText style={{flex: 1}}>{title}</ThemedText>
-      <ThemedText style={{flex: 1}}>{body}</ThemedText>
+      <ThemedText testID={testID} style={{flex: 1}}>{body}</ThemedText>
     </View>
   );
 };
@@ -88,7 +88,7 @@ const MINUTE_INTERVALS = [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30];
 
 export const App = () => {
   // Sat, 13 Nov 2021 10:00:00 GMT (local: Saturday, November 13, 2021 11:00:00 AM GMT+01:00)
-  const sourceMoment = moment.unix(1636797600);
+  const sourceMoment = moment.unix(1636765200);
   const sourceDate = sourceMoment.local().toDate();
   const [date, setDate] = useState(sourceDate);
   const [tzOffsetInMinutes, setTzOffsetInMinutes] = useState(undefined);
@@ -169,10 +169,11 @@ export const App = () => {
       <View style={{marginHorizontal: 1}}>
         <Button
           title={title || 'undefined'}
+          testID={item}
           onPress={() => {
-            setTzOffsetInMinutes(isNumber ? item : undefined);
-            setTzName(isNumber ? undefined : item);
-          }}
+              setTzOffsetInMinutes(isNumber ? item : undefined);
+              setTzName(isNumber ? undefined : item);
+            }}
         />
       </View>
     );
@@ -212,12 +213,13 @@ export const App = () => {
             <ThemedText style={styles.text}>Example DateTime Picker</ThemedText>
           </View>
           <View>
-            <Info title={'UTC Time:'} body={moment(date).utc().format()} />
-            <Info title={'Device Time:'} body={moment(date).format()} />
-            <Info title={'Device TzName:'} body={RNLocalize.getTimeZone()} />
+            <Info testID={"utcTime"} title={'UTC Time:'} body={moment(date).utc().format()} />
+            <Info testID={"deviceTime"} title={'Device Time:'} body={moment(date).format()} />
+            <Info testID={"deviceTzName"} title={'Device TzName:'} body={RNLocalize.getTimeZone()} />
             {(tzName || !isNaN(tzOffsetInMinutes)) && (
               <>
                 <Info
+                  testID={"overriddenTime"}
                   title={'Overridden Time:'}
                   body={(() => {
                     if (tzName) {
@@ -230,6 +232,7 @@ export const App = () => {
                   })()}
                 />
                 <Info
+                  testID={tzName ? "overriddenTzName": "overriddenTzOffset"}
                   title={(() => {
                     if (tzName) {
                       return 'Overridden TzName:';
