@@ -86,6 +86,7 @@
     "metro-babel-register": "^0.72.2",
     "metro-react-native-babel-preset": "^0.73.5",
     "moment": "^2.24.0",
+    "moment-timezone": "^0.5.41",
     "patch-package": "^6.4.7",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^2.6.0",
